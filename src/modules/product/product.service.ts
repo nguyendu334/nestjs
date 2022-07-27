@@ -14,26 +14,28 @@ export class ProductService {
     private productRepository: MongoRepository<Product>,
   ) {}
 
-  createProduct(productDto: ProductDto) {
+  async createProduct(productDto: ProductDto) {
     const product = new Product();
     product.name = productDto.name;
     product.price = productDto.price;
     product.description = productDto.description;
     product.category = productDto.category;
-    // product.userId = createProductDto.userID;
     return this.productRepository.save(product);
   }
 
+  // GET ALL PRODUCTS
   getAllProducts() {
     return this.productRepository.find({});
   }
 
+  // PRODUCT DETAIL
   productDetail(id: string) {
     return this.productRepository.findOneBy({
       _id: new ObjectId(id),
     });
   }
 
+  // EDIT PRODUCT
   async editProduct(id: string, updateProductDto: UpdateProductDto) {
     const product = await this.productDetail(id);
     if (!product)
@@ -41,6 +43,7 @@ export class ProductService {
     return this.productRepository.update(product, updateProductDto);
   }
 
+  // DELETE PRODUCT
   async deleteProduct(id: string) {
     const product = await this.productDetail(id);
     if (!product)
@@ -48,16 +51,15 @@ export class ProductService {
     return this.productRepository.delete(product);
   }
 
+  // REVIEW PRODUCT
   async reviewProduct(id: string, review: any) {
     const product = await this.productDetail(id);
     if (!product)
       throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
     review = {
-      email: review.email,
       rating: review.rating,
       comment: review.comment,
-      userId: review.userId,
-      createdAt: moment().format('HH:mm:ss DD-MM-YYYY'),
+      createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     };
     product.reviews.push(review);
     product.totalReviews = product.reviews.length;
@@ -67,6 +69,7 @@ export class ProductService {
     return this.productRepository.save(product);
   }
 
+  // GET ALL REVIEWS
   // async getAllRe(id: string) {
   //   const product = await this.productDetail(id);
   //   if (!product)

@@ -15,6 +15,7 @@ export class UserService {
     return this.userRepository.findOneBy({ email: email });
   }
 
+  // CREATE USER
   async createUser(userDto: UserDto) {
     const emailExist = await this.findOne(userDto.email);
 
@@ -25,20 +26,22 @@ export class UserService {
     user.username = userDto.username;
     user.email = userDto.email;
     user.password = userDto.password;
-    user.role = userDto.role;
     return this.userRepository.save(user);
   }
 
+  // GET ALL USERS
   getAllUsers() {
     return this.userRepository.find({});
   }
 
+  // DELETE USER
   async deleteUser(id: string) {
     const user = await this.findOne(id);
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     return this.userRepository.delete(user);
   }
 
+  // EDIT USER
   async editUser(id: string, UpdateUserDto: UpdateUserDto) {
     const user = await this.findOne(id);
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);

@@ -1,6 +1,14 @@
 import { Type } from 'class-transformer';
 import { Max, Min } from 'class-validator';
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ObjectID,
+  ObjectIdColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Product {
@@ -33,6 +41,12 @@ export class Product {
 
   @Column('number', { default: 0 })
   totalReviews: number;
+
+  @CreateDateColumn('timestamp')
+  createdAt: Date;
+
+  @UpdateDateColumn('timestamp')
+  updatedAt: Date;
 }
 
 @Entity()

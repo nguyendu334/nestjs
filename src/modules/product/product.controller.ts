@@ -15,10 +15,9 @@ import { ProductService } from './product.service';
 import { ProductDto } from './dto/product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Validate } from 'src/validators/validation';
-import { createReviewDto } from './dto/review.dto';
+import { reviewDto } from './dto/review.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { RolesGuard } from 'src/guards/role.guard';
 import { Role } from 'src/constants/role.constants';
 import { Roles } from 'src/decorators/role.decorator';
 
@@ -27,6 +26,7 @@ import { Roles } from 'src/decorators/role.decorator';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  // GET ALL PRODUCTS
   @Get()
   @HttpCode(HttpStatus.OK)
   @ApiResponse({ status: 200, description: 'OK', type: ProductDto })
@@ -34,6 +34,7 @@ export class ProductController {
     return await this.productService.getAllProducts();
   }
 
+  //CREATE NEW PRODUCT
   @UseGuards(JwtAuthGuard)
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
@@ -47,6 +48,7 @@ export class ProductController {
     return await this.productService.createProduct(productDto);
   }
 
+  // PRODUCT DETAIL
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @ApiResponse({ status: 200, description: 'OK', type: ProductDto })
@@ -59,6 +61,7 @@ export class ProductController {
     return product;
   }
 
+  // EDIT PRODUCT
   @UseGuards(JwtAuthGuard)
   @Roles(Role.Admin)
   @Put(':id')
@@ -73,6 +76,7 @@ export class ProductController {
     return await this.productService.editProduct(id, updateProductDto);
   }
 
+  //DELETE A PRODUCT
   @Roles(Role.Admin)
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
@@ -84,6 +88,7 @@ export class ProductController {
     return await this.productService.deleteProduct(id);
   }
 
+  // REVIEW PRODUCT
   @UseGuards(JwtAuthGuard)
   @Post('/:id/review')
   @HttpCode(HttpStatus.ACCEPTED)
@@ -92,11 +97,12 @@ export class ProductController {
   @ApiResponse({ status: 200, description: 'REVIEW ADDED!' })
   async reviewProduct(
     @Param('id', Validate) id: string,
-    @Body() review: createReviewDto,
+    @Body() review: reviewDto,
   ) {
     return await this.productService.reviewProduct(id, review);
   }
 
+  // GET ALL REVIEWS
   // @Get(':id/review')
   // @ApiResponse({ status: 400, description: 'Invalid' })
   // @ApiResponse({ status: 200, description: 'OK' })

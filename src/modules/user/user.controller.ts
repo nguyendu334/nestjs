@@ -21,12 +21,14 @@ import { Roles } from 'src/decorators/role.decorator';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // GET ALL USERS
   @UseGuards(AuthGuard('jwt'))
   @Get()
   getAllUsers() {
     return this.userService.getAllUsers();
   }
 
+  // DELETE USER
   @Roles(Role.Admin)
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
@@ -37,6 +39,7 @@ export class UserController {
     return await this.userService.deleteUser(id);
   }
 
+  // EDIT USER
   @Roles(Role.Admin)
   @UseGuards(AuthGuard('jwt'))
   @Put(':id')

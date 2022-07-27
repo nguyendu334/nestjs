@@ -4,6 +4,8 @@ import {
   ObjectID,
   ObjectIdColumn,
   BeforeInsert,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'src/constants/role.constants';
@@ -24,6 +26,12 @@ export class User {
 
   @Column({ type: 'enum', enum: Role, default: Role.User })
   role: Role;
+
+  @CreateDateColumn('timestamp')
+  createdAt: Date;
+
+  @UpdateDateColumn('timestamp')
+  updatedAt: Date;
 
   @BeforeInsert()
   private hashPassword() {

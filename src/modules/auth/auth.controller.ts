@@ -15,6 +15,7 @@ import { LocalAuthGuard } from '../../guards/local-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // LOGIN
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @ApiResponse({ status: 401, description: 'Invalid email or password' })
@@ -23,6 +24,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
+  // REGISTER
   @Post('register')
   @ApiResponse({ status: 400, description: 'Missing required fields' })
   @ApiResponse({ status: 200, description: 'OK' })
@@ -30,6 +32,7 @@ export class AuthController {
     return await this.authService.register(userDto);
   }
 
+  // LOGOUT
   @Post('logout')
   @ApiResponse({ status: 200, description: 'OK' })
   async logout(@Response() res) {
