@@ -1,0 +1,38 @@
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Request,
+  Response,
+} from '@nestjs/common';
+import { UserDto } from '../user/dto/user.dto';
+import { AuthService } from './auth.service';
+import { ApiResponse } from '@nestjs/swagger';
+import { LocalAuthGuard } from '../../guards/local-auth.guard';
+
+@Controller('')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  @ApiResponse({ status: 401, description: 'Invalid email or password' })
+  @ApiResponse({ status: 200, description: 'Login success' })
+  async login(@Request() req) {
+    return this.authService.login(req.user);
+  }
+
+  @Post('register')
+  @ApiResponse({ status: 400, description: 'Missing required fields' })
+  @ApiResponse({ status: 200, description: 'OK' })
+  async register(@Body() userDto: UserDto) {
+    return await this.authService.register(userDto);
+  }
+
+  @Post('logout')
+  @ApiResponse({ status: 200, description: 'OK' })
+  async logout(@Response() res) {
+    return await this.authService.logout(res);
+  }
+}
