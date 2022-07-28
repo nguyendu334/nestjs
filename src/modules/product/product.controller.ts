@@ -14,12 +14,12 @@ import {
 import { ProductService } from './product.service';
 import { ProductDto } from './dto/product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Validate } from 'src/validators/validation';
+import { Validate } from '../../validators/validation';
 import { reviewDto } from './dto/review.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
-import { Role } from 'src/constants/role.constants';
-import { Roles } from 'src/decorators/role.decorator';
+import { Role } from '../../constants/role.constants';
+import { Roles } from '../../decorators/role.decorator';
 
 @ApiTags('product')
 @Controller('product')

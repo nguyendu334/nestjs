@@ -3,7 +3,6 @@ import { Max, Min } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   ObjectID,
   ObjectIdColumn,

@@ -10,11 +10,11 @@ import {
 import { UserService } from './user.service';
 // import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Validate } from 'src/validators/validation';
+import { Validate } from '../../validators/validation';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { Role } from 'src/constants/role.constants';
-import { Roles } from 'src/decorators/role.decorator';
+import { Role } from '../../constants/role.constants';
+import { Roles } from '../../decorators/role.decorator';
 
 @ApiTags('user')
 @Controller('user')

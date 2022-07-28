@@ -56,6 +56,7 @@ export class ProductService {
     const product = await this.productDetail(id);
     if (!product)
       throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
+
     review = {
       rating: review.rating,
       comment: review.comment,
