@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from '../../src/modules/user/user.entity';
-import { UserService } from '../../src/modules/user/user.service';
+import { User } from './user.entity';
+import { UserService } from './user.service';
 import { Repository } from 'typeorm';
-import { repositoryMockFactory, type MockType } from '../mocker';
+import { repositoryMockFactory, type MockType } from '../../../test/mocker';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -45,10 +45,10 @@ describe('UserService', () => {
 
   it('should delete a user', async () => {
     const user = {
-      email: '123',
-      username: 'du',
+      email: 'email@gmail.com',
+      username: 'username',
       password: 'password',
-      _id: '1d12edas',
+      _id: '62dfb63b69ced24c135822be',
     };
     repositoryMock.delete.mockReturnValue(user);
     expect(await userService.deleteUser(user._id)).toEqual(user);
@@ -56,10 +56,10 @@ describe('UserService', () => {
 
   it('should edit a user', async () => {
     const user = {
-      email: '123',
-      username: 'du',
+      email: 'email@gmail.com',
+      username: 'username',
       password: 'password',
-      _id: '1d12edas',
+      _id: '62dfb63b69ced24c135822be',
     };
     repositoryMock.update.mockReturnValue(user);
     expect(await userService.editUser(user._id, user)).toEqual(user);
@@ -67,10 +67,9 @@ describe('UserService', () => {
 
   it('should create a user', async () => {
     const user = {
-      email: '123',
-      username: 'du',
+      email: 'email@gmail.com',
+      username: 'username',
       password: 'password',
-      _id: '1d12edas',
     };
     repositoryMock.findOneBy.mockReturnValue(null);
     repositoryMock.save.mockReturnValue(user);
@@ -79,10 +78,9 @@ describe('UserService', () => {
 
   it.only("shouldn't create a user if email already exist", async () => {
     const user = {
-      email: '123',
-      username: 'du',
+      email: 'email@gmail.com',
+      username: 'username',
       password: 'password',
-      _id: '1d12edas',
     };
     repositoryMock.findOneBy.mockReturnValue(user);
     expect(() => userService.createUser(user)).rejects.toThrow(

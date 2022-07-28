@@ -4,9 +4,6 @@ import { IsEmpty, IsInt, IsString } from 'class-validator';
 
 export class ProductDto {
   @ApiProperty()
-  userID: string;
-
-  @ApiProperty()
   @IsString()
   name: string;
 

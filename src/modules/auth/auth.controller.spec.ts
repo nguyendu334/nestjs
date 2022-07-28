@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from '../../src/modules/auth/auth.controller';
-import { AuthService } from '../../src/modules/auth/auth.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { ArgumentMetadata, ValidationPipe } from '@nestjs/common';
-import { UserDto } from '../../src/modules/user/dto/user.dto';
+import { UserDto } from '../user/dto/user.dto';
 import { createRequest, createResponse } from 'node-mocks-http';
 
 describe('AuthController', () => {
@@ -20,6 +20,7 @@ describe('AuthController', () => {
           useValue: {
             login: jest.fn(),
             register: jest.fn(),
+            logout: jest.fn(),
           },
         },
       ],
@@ -47,7 +48,7 @@ describe('AuthController', () => {
     it('should register a new user', async () => {
       const dto = {
         username: 'username',
-        email: 'email',
+        email: 'email@gmail.com',
         password: 'password',
       };
       authService.register.mockReturnValue(dto);
@@ -75,6 +76,12 @@ describe('AuthController', () => {
       const token = 'token';
       authService.login.mockReturnValue(token);
       expect(await authController.login(dto)).toEqual(token);
+    });
+  });
+
+  describe('logout', () => {
+    it('should return a logout', async () => {
+      expect(await authController.logout(req.res)).toEqual(undefined);
     });
   });
 });

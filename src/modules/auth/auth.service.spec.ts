@@ -1,11 +1,11 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { User } from '../../src/modules/user/user.entity';
-import { UserService } from '../../src/modules/user/user.service';
-import { MockType, repositoryMockFactory } from '../../test/mocker';
+import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
+import { MockType, repositoryMockFactory } from '../../../test/mocker';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { AuthService } from '../../src/modules/auth/auth.service';
+import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let jwtService: MockType<JwtService>;
@@ -51,8 +51,8 @@ describe('AuthService', () => {
 
   it('should be signToken', () => {
     const user = {
-      _id: '62d133dff7b8b0612355b4a6',
-      email: 'user',
+      _id: '62e114723f97b1a3c8df5f0c',
+      email: 'email@gmail.com',
     };
     jwtService.sign.mockReturnValue(user);
     expect(authService.login(user)).toBeTruthy();
@@ -61,7 +61,7 @@ describe('AuthService', () => {
   it('should validate user', async () => {
     const user = {
       password: 'password',
-      email: 'user',
+      email: 'email@gmail.com',
     };
     repositoryMock.findOneBy.mockReturnValue(user);
     bcryptMock.compareSync.mockReturnValue(true);

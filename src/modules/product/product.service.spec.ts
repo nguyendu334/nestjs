@@ -1,6 +1,6 @@
-import { Product } from '../../src/modules/product/product.entity';
-import { ProductService } from '../../src/modules/product/product.service';
-import { MockType, repositoryMockFactory } from '../mocker';
+import { Product } from './product.entity';
+import { ProductService } from './product.service';
+import { MockType, repositoryMockFactory } from '../../../test/mocker';
 import { Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -35,10 +35,10 @@ describe('ProductService', () => {
 
   it('should find a product by id', async () => {
     const product = {
-      name: 'product',
-      _id: '62d133dff7b8b0612355b4a6',
+      name: 'test',
+      _id: '62e114723f97b1a3c8df5f0c',
       price: 10,
-      description: 'description',
+      description: 'test',
     };
     repositoryMock.findOneBy.mockReturnValue(product);
     expect(productService.productDetail(product._id)).toEqual(product);
@@ -47,16 +47,40 @@ describe('ProductService', () => {
   it('should get all products', async () => {
     const products = [
       {
-        name: 'product',
-        _id: '62d133dff7b8b0612355b4a6',
-        price: 10,
-        description: 'description',
+        reviews: [
+          {
+            rating: 9,
+            comment: 'test',
+            createdAt: '2022-07-27 17:37:47',
+          },
+        ],
+        _id: '62e114723f97b1a3c8df5f0c',
+        name: 'test',
+        price: 12,
+        description: 'test',
+        category: 'test',
+        rating: 9,
+        totalReviews: 1,
+        createdAt: '2022-07-27T10:33:22.659Z',
+        updatedAt: '2022-07-27T10:37:47.166Z',
       },
       {
-        name: 'product',
-        _id: '62d133dff7b8b0612355b4a6',
-        price: 10,
-        description: 'description',
+        reviews: [
+          {
+            rating: 7,
+            comment: 'test',
+            createdAt: '2022-07-27 17:37:47',
+          },
+        ],
+        _id: '62e114723f97b1a3c8df5f0c',
+        name: 'test1',
+        price: 12,
+        description: 'test1',
+        category: 'test1',
+        rating: 7,
+        totalReviews: 1,
+        createdAt: '2022-07-27T10:33:22.659Z',
+        updatedAt: '2022-07-27T10:37:47.166Z',
       },
     ];
     repositoryMock.find.mockReturnValue(products);
@@ -67,11 +91,10 @@ describe('ProductService', () => {
     const prod = new Product();
     const product = {
       ...prod,
-      name: 'product',
-      _id: '62d133dff7b8b0612355b4a6',
-      price: 10,
-      description: 'description',
-      userID: '62d133dff7b8b0612355b4a6',
+      name: 'test1',
+      price: 12,
+      description: 'test1',
+      category: 'test1',
     };
     repositoryMock.save.mockReturnValue(product);
     expect(productService.createProduct(product)).toEqual(product);
@@ -79,11 +102,14 @@ describe('ProductService', () => {
 
   it('should edit a product', async () => {
     const product = {
-      name: 'product',
-      _id: '62d133dff7b8b0612355b4a6',
-      price: 10,
-      description: 'description',
-      userID: '62d133dff7b8b0612355b4a6',
+      reviews: [],
+      _id: '62e1f8d77ff080fbe5e3a0bb',
+      name: 'test1',
+      price: 12,
+      description: 'test1',
+      category: 'test1',
+      createdAt: '2022-07-27T10:33:22.659Z',
+      updatedAt: '2022-07-27T10:37:47.166Z',
     };
     repositoryMock.update.mockReturnValue(product);
     expect(await productService.editProduct(product._id, product)).toEqual(
@@ -93,30 +119,34 @@ describe('ProductService', () => {
 
   it('should delete a product', async () => {
     const product = {
-      name: 'product',
-      _id: '62d133dff7b8b0612355b4a6',
-      price: 10,
-      description: 'description',
-      userId: '62d133dff7b8b0612355b4a6',
+      reviews: [],
+      _id: '62e1f8d77ff080fbe5e3a0bb',
+      name: 'test1',
+      price: 12,
+      description: 'test1',
+      category: 'test1',
+      createdAt: '2022-07-27T10:33:22.659Z',
+      updatedAt: '2022-07-27T10:37:47.166Z',
     };
     repositoryMock.delete.mockReturnValue(product);
     expect(await productService.deleteProduct(product._id)).toEqual(product);
   });
+
   it('should add a review to a product', async () => {
     const review = {
-      userId: '62d133dff7b8b0612355b4a6',
       rating: 5,
-      comment: 'comment',
-      email: 'email',
+      comment: 'test',
       createdAt: new Date(),
     };
     const product = {
       reviews: [],
-      name: 'product',
-      _id: '62d133dff7b8b0612355b4a6',
-      price: 10,
-      description: 'description',
-      userId: '62d133dff7b8b0612355b4a6',
+      _id: '62e1f8d77ff080fbe5e3a0bb',
+      name: 'test1',
+      price: 12,
+      description: 'test1',
+      category: 'test1',
+      createdAt: '2022-07-27T10:33:22.659Z',
+      updatedAt: '2022-07-27T10:37:47.166Z',
     };
     repositoryMock.findOneBy.mockReturnValue(product);
     repositoryMock.save.mockReturnValue(product);
