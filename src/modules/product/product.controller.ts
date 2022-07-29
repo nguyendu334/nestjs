@@ -17,9 +17,9 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Validate } from '../../validators/validation';
 import { reviewDto } from './dto/review.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { Role } from '../../constants/role.constants';
 import { Roles } from '../../decorators/role.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('product')
 @Controller('product')
@@ -35,7 +35,7 @@ export class ProductController {
   }
 
   //CREATE NEW PRODUCT
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthGuard('jwt'))
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
   @ApiResponse({ status: 400, description: 'Missing required fields' })
@@ -62,7 +62,7 @@ export class ProductController {
   }
 
   // EDIT PRODUCT
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthGuard('jwt'))
   @Roles(Role.Admin)
   @Put(':id')
   @HttpCode(HttpStatus.ACCEPTED)
@@ -78,7 +78,7 @@ export class ProductController {
 
   //DELETE A PRODUCT
   @Roles(Role.Admin)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   @HttpCode(HttpStatus.ACCEPTED)
   @ApiResponse({ status: 404, description: 'Product not found' })
@@ -89,7 +89,7 @@ export class ProductController {
   }
 
   // REVIEW PRODUCT
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthGuard('jwt'))
   @Post('/:id/review')
   @HttpCode(HttpStatus.ACCEPTED)
   @ApiResponse({ status: 404, description: 'Product not found' })

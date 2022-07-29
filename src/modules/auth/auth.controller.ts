@@ -9,14 +9,14 @@ import {
 import { UserDto } from '../user/dto/user.dto';
 import { AuthService } from './auth.service';
 import { ApiResponse } from '@nestjs/swagger';
-import { LocalAuthGuard } from '../../guards/local-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   // LOGIN
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(AuthGuard('local'))
   @Post('login')
   @ApiResponse({ status: 401, description: 'Invalid email or password' })
   @ApiResponse({ status: 200, description: 'Login success' })
