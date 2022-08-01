@@ -69,12 +69,4 @@ export class ProductService {
       product.totalReviews;
     return this.productRepository.save(product);
   }
-
-  // GET ALL REVIEWS
-  // async getAllRe(id: string) {
-  //   const product = await this.productDetail(id);
-  //   if (!product)
-  //     throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
-  //   return product.reviews;
-  // }
 }

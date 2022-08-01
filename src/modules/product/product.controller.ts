@@ -101,12 +101,4 @@ export class ProductController {
   ) {
     return await this.productService.reviewProduct(id, review);
   }
-
-  // GET ALL REVIEWS
-  // @Get(':id/review')
-  // @ApiResponse({ status: 400, description: 'Invalid' })
-  // @ApiResponse({ status: 200, description: 'OK' })
-  // async getAllRe(@Param('id', ValidateMongoId) id: string) {
-  //   return this.productService.getAllRe(id);
-  // }
 }
